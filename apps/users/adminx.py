@@ -1,5 +1,4 @@
 # __author__ = 'Marshall Stan'
-# __date__ = '2019/3/9 15:46'
 
 
 import xadmin
