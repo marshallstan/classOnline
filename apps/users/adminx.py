@@ -15,6 +15,7 @@ class BaseSetting(object):
 class GlobalSettings(object):
     site_title = 'Class Online Admin'
     site_footer = 'ClassOnline'
+    menu_style = 'accordion'
 
 
 class EmailVerifyRecordAdmin(object):
