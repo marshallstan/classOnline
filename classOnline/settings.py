@@ -146,3 +146,6 @@ EMAIL_HOST_USER = 'test123777@sina.com'
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 EMAIL_FROM = 'test123777@sina.com'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
