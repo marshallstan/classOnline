@@ -11,12 +11,17 @@ class OrgView(View):
     """
     def get(self, request):
         all_orgs = CourseOrg.objects.all()
-        org_nums = all_orgs.count()
         all_cities = CityDict.objects.all()
 
         city_id = request.GET.get('city', '')
         if city_id:
             all_orgs = all_orgs.filter(city_id=int(city_id))
+
+        category = request.GET.get('ct', '')
+        if category:
+            all_orgs = all_orgs.filter(category=category)
+
+        org_nums = all_orgs.count()
 
         try:
             page = request.GET.get('page', 1)
@@ -31,4 +36,5 @@ class OrgView(View):
             'all_cities': all_cities,
             'org_nums': org_nums,
             'city_id': city_id,
+            'category': category,
         })
