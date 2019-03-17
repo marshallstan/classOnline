@@ -14,6 +14,10 @@ class OrgView(View):
         org_nums = all_orgs.count()
         all_cities = CityDict.objects.all()
 
+        city_id = request.GET.get('city', '')
+        if city_id:
+            all_orgs = all_orgs.filter(city_id=int(city_id))
+
         try:
             page = request.GET.get('page', 1)
         except PageNotAnInteger:
@@ -26,4 +30,5 @@ class OrgView(View):
             'all_orgs': orgs,
             'all_cities': all_cities,
             'org_nums': org_nums,
+            'city_id': city_id,
         })
