@@ -11,6 +11,7 @@ class OrgView(View):
     """
     def get(self, request):
         all_orgs = CourseOrg.objects.all()
+        hot_orgs = all_orgs.order_by('-click_nums')[:3]
         all_cities = CityDict.objects.all()
 
         city_id = request.GET.get('city', '')
@@ -21,6 +22,13 @@ class OrgView(View):
         if category:
             all_orgs = all_orgs.filter(category=category)
 
+        sort = request.GET.get('sort', '')
+        if sort:
+            if sort == 'students':
+                all_orgs = all_orgs.order_by('-students')
+            elif sort == 'courses':
+                all_orgs = all_orgs.order_by('-course_nums')
+
         org_nums = all_orgs.count()
 
         try:
@@ -28,7 +36,7 @@ class OrgView(View):
         except PageNotAnInteger:
             page = 1
 
-        p = Paginator(all_orgs, 2, request=request)
+        p = Paginator(all_orgs, 5, request=request)
         orgs = p.page(page)
 
         return render(request, 'org-list.html', {
@@ -37,4 +45,6 @@ class OrgView(View):
             'org_nums': org_nums,
             'city_id': city_id,
             'category': category,
+            'hot_orgs': hot_orgs,
+            'sort': sort,
         })
