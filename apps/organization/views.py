@@ -3,7 +3,7 @@ from django.views.generic import View
 from pure_pagination import Paginator, PageNotAnInteger
 from django.http import HttpResponse
 
-from .models import CourseOrg, CityDict
+from .models import CourseOrg, CityDict, Teacher
 from .forms import UserAskForm
 from operation.models import UserFavorite
 
@@ -172,3 +172,29 @@ class AddFavView(View):
                     '{"status": "fail", "msg": "收藏出错！"}',
                     content_type='application/json'
                 )
+
+
+class TeacherListView(View):
+    def get(self, request):
+        all_teachers = Teacher.objects.all()
+
+        sort = request.GET.get('sort', '')
+        if sort:
+            if sort == 'hot':
+                all_teachers = all_teachers.order_by('-click_nums')
+
+        sorted_teacher = Teacher.objects.all().order_by('-click_nums')[:3]
+
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(all_teachers, 1, request=request)
+        teachers = p.page(page)
+
+        return render(request, 'teachers-list.html', {
+            'all_teachers': teachers,
+            'sorted_teacher': sorted_teacher,
+            'sort': sort,
+        })
