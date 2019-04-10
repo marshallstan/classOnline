@@ -157,3 +157,14 @@ class UpdatePwdView(View):
             return HttpResponse('{"status": "success"}', content_type='application/json')
         else:
             return HttpResponse(json.dumps(modify_form.errors), content_type='application/json')
+
+
+class SendEmailCodeView(LoginRequiredMixin, View):
+    def get(self, request):
+        email = request.GET.get('email', '')
+
+        if UserProfile.objects.filter(email=email):
+            return HttpResponse('{"email": "邮箱已经存在"}', content_type='application/json')
+
+        send_register_email(email, 'update_email')
+        return HttpResponse('{"status": "success"}', content_type='application/json')
