@@ -3,7 +3,7 @@ __author__ = 'MarshallStan'
 from django.conf.urls import url, include
 
 from .views import UserinfoView, UploadImageView, UpdatePwdView, SendEmailCodeView
-from .views import UpdateEmailView, MyCourseView, MyFavOrgView, MyFavTeacherView
+from .views import UpdateEmailView, MyCourseView, MyFavOrgView, MyFavTeacherView, MyFavCourseView
 # from .views import UpdateEmailView, MyCourseView, MyFavOrgView, MyFavTeacherView, MyFavCourseView, MymessageView
 
 
@@ -16,6 +16,6 @@ urlpatterns = [
     url(r'^mycourse/$', MyCourseView.as_view(), name="mycourse"),
     url(r'^myfav/org/$', MyFavOrgView.as_view(), name="myfav_org"),
     url(r'^myfav/teacher/$', MyFavTeacherView.as_view(), name="myfav_teacher"),
-    # url(r'^myfav/course/$', MyFavCourseView.as_view(), name="myfav_course"),
+    url(r'^myfav/course/$', MyFavCourseView.as_view(), name="myfav_course"),
     # url(r'^mymessage/$', MymessageView.as_view(), name="mymessage"),
 ]
