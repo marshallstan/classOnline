@@ -12,7 +12,7 @@ from .forms import LoginForm, RegisterForm, ForgetForm, ModifyPwdForm, UploadIma
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
 from operation.models import UserCourse, UserFavorite
-from organization.models import CourseOrg
+from organization.models import CourseOrg, Teacher
 
 
 class CustomBackend(ModelBackend):
@@ -215,4 +215,18 @@ class MyFavOrgView(LoginRequiredMixin, View):
 
         return render(request, 'usercenter-fav-org.html', {
             'org_list': org_list,
+        })
+
+
+class MyFavTeacherView(LoginRequiredMixin, View):
+    def get(self, request):
+        teacher_list = []
+        fav_teachers = UserFavorite.objects.filter(user=request.user, fav_type=3)
+        for fav_teacher in fav_teachers:
+            teacher_id = fav_teacher.fav_id
+            teacher = Teacher.objects.get(id=teacher_id)
+            teacher_list.append(teacher)
+
+        return render(request, 'usercenter-fav-teacher.html', {
+            'teacher_list': teacher_list,
         })
