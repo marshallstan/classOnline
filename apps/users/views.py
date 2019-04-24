@@ -1,11 +1,11 @@
 import json
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
 from django.views.generic.base import View
 from django.contrib.auth.hashers import make_password
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from pure_pagination import Paginator, PageNotAnInteger
 
 from .models import UserProfile, EmailVerifyRecord
@@ -69,6 +69,13 @@ class RegisterView(View):
             return render(request, 'login.html')
         else:
             return render(request, 'register.html', {'register_form': register_form})
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        from django.core.urlresolvers import reverse
+        return HttpResponseRedirect(reverse("index"))
 
 
 class LoginView(View):
