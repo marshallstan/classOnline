@@ -24,6 +24,7 @@ class CourseAdmin(object):
     list_editable = ['degree', 'desc']
     exclude = ['click_nums']
     inlines = [LessonInline, CourseResourceInline]
+    style_fields = {'detail': 'ueditor'}
     # refresh_times = [3, 5]
 
     def queryset(self):

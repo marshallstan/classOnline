@@ -46,6 +46,8 @@ urlpatterns = [
     # url(r'^static/(?P<path>.*)$', serve, {'document_root': STATIC_ROOT}),
 
     url(r'^users/', include('users.urls', namespace='users')),
+
+    url(r'^ueditor/', include('DjangoUeditor.urls')),
 ]
 
 handler404 = 'users.views.page_not_found'
